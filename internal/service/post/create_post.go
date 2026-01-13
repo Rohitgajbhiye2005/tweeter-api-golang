@@ -8,22 +8,21 @@ import (
 	"tweets/internal/models"
 )
 
-
-func (s *postService)CreatePost(ctx context.Context,req *dto.CreatePostRequest,userID int64)(int64,int ,error){
+func (s *postService) CreatePost(ctx context.Context, req *dto.CreateOrUpdatePostRequest, userID int64) (int64, int, error) {
 	// store post
-	now:=time.Now()
-	insertedID,err:=s.postRepo.StorePost(ctx,&models.PostModel{
-		UserID: userID,
-		Title: req.Title,
-		Content: req.Content,
+	now := time.Now()
+	insertedID, err := s.postRepo.StorePost(ctx, &models.PostModel{
+		UserID:    userID,
+		Title:     req.Title,
+		Content:   req.Content,
 		CreatedAt: now,
 		UpdatedAt: now,
 	})
 
-	if err!=nil{
-		return 0,http.StatusInternalServerError,err
+	if err != nil {
+		return 0, http.StatusInternalServerError, err
 	}
 	// return
 
-	return insertedID,http.StatusCreated,nil
+	return insertedID, http.StatusCreated, nil
 }

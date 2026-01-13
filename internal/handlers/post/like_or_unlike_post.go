@@ -7,10 +7,10 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func (h *Handler) CreatePost(c *gin.Context) {
+func (h *Handler) LikeOrUnlikePost(c *gin.Context) {
 	var (
 		ctx = c.Request.Context()
-		req dto.CreateOrUpdatePostRequest
+		req dto.LikeOrUnlikePostRequest
 	)
 	if err := c.ShouldBindJSON(&req); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -28,14 +28,19 @@ func (h *Handler) CreatePost(c *gin.Context) {
 
 	userID := c.GetInt64("userID")
 
-	postID, statusCode, err := h.postService.CreatePost(ctx, &req, userID)
+	statusCode, err := h.postService.LikeOrUnlikePost(ctx, req.PostID, userID)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"message": err.Error(),
 		})
 		return
 	}
-	c.JSON(statusCode, dto.CreateOrUpdatePostResponse{
-		ID: postID,
+	// c.JSON(statusCode,gin.H{
+	// 	"message":"Succesfull",
+	// }
+	// )
+
+	c.JSON(statusCode, gin.H{
+		"message": "Succesfull",
 	})
 }

@@ -2,12 +2,13 @@ package post
 
 import (
 	"net/http"
+	"strconv"
 	"tweets/internal/dto"
 
 	"github.com/gin-gonic/gin"
 )
 
-func (h *Handler) CreatePost(c *gin.Context) {
+func (h *Handler) UpdatePost(c *gin.Context) {
 	var (
 		ctx = c.Request.Context()
 		req dto.CreateOrUpdatePostRequest
@@ -27,8 +28,16 @@ func (h *Handler) CreatePost(c *gin.Context) {
 	}
 
 	userID := c.GetInt64("userID")
+	postIDStr:=c.Param("post_id")
+	postID,err:=strconv.ParseInt(postIDStr,10,64)
+	if err!=nil{
+		c.JSON(http.StatusInternalServerError,gin.H{
+			"message":err.Error(),
+		})
+		return
+	}
 
-	postID, statusCode, err := h.postService.CreatePost(ctx, &req, userID)
+	statusCode, err := h.postService.UpdatePost(ctx, &req, postID,userID)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"message": err.Error(),

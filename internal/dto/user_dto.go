@@ -19,22 +19,17 @@ type (
 		Password string `json:"password" validate:"required"`
 	}
 	LoginResponse struct {
-		Token string `json:"token"`
+		Token        string `json:"token"`
 		RefreshToken string `json:"refresh_token"`
 	}
-
-
-
 )
 
 type (
-	RefreshTokenRequest struct{
+	RefreshTokenRequest struct {
 		RefreshToken string `json:"refresh_token" validate:"required"`
 	}
-	RefreshTokenResponse struct{
-		Token string `json:"token"`
-		RefreshToken string `json:"refresh_token"`
-
+	RefreshTokenResponse struct {
+		Token        string `json:"token"`
+		RefreshToken string `json:"refresh_token" validate:"required"`
 	}
-
 )

@@ -8,23 +8,25 @@ import (
 	"github.com/go-playground/validator/v10"
 )
 
-type Handler struct{
-	api *gin.Engine
-	validate *validator.Validate
+type Handler struct {
+	api         *gin.Engine
+	validate    *validator.Validate
 	postService post.PostService
 }
 
-func NewHandler(api *gin.Engine,validate *validator.Validate,postService post.PostService)*Handler{
+func NewHandler(api *gin.Engine, validate *validator.Validate, postService post.PostService) *Handler {
 	return &Handler{
-		api: api,
-		validate: validate,
+		api:         api,
+		validate:    validate,
 		postService: postService,
 	}
 }
 
-func (h *Handler)RouteList(secretKey string){
-	routeAuth:=h.api.Group("/tweets")
+func (h *Handler) RouteList(secretKey string) {
+	routeAuth := h.api.Group("/tweets")
 	routeAuth.Use(middleware.AuthMiddleware(secretKey))
-	routeAuth.POST("/",h.CreatePost)
+	routeAuth.POST("/", h.CreatePost)
+	routeAuth.PUT("/:post_id/update", h.UpdatePost)
+	routeAuth.DELETE("/:post_id/delete", h.DeletePost)
+	routeAuth.POST("/action", h.LikeOrUnlikePost)
 }
-

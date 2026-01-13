@@ -7,19 +7,21 @@ import (
 	"tweets/internal/repository/post"
 )
 
-
-type PostService interface{
-	CreatePost(ctx context.Context,req *dto.CreatePostRequest,userID int64)(int64,int ,error)
+type PostService interface {
+	CreatePost(ctx context.Context, req *dto.CreateOrUpdatePostRequest, userID int64) (int64, int, error)
+	UpdatePost(ctx context.Context,req *dto.CreateOrUpdatePostRequest,postID,userID int64)(int,error)
+	DeletePost(ctx context.Context,postID,userID int64)(int,error)
+	LikeOrUnlikePost(ctx context.Context,postID,userID int64)(int,error)
 }
 
-type postService struct{
-	cfg *config.Config
+type postService struct {
+	cfg      *config.Config
 	postRepo post.PostRepository
 }
 
-func NewPostService(cfg *config.Config,postRepo post.PostRepository) PostService {
+func NewPostService(cfg *config.Config, postRepo post.PostRepository) PostService {
 	return &postService{
-		cfg:cfg,
-		postRepo:postRepo,
+		cfg:      cfg,
+		postRepo: postRepo,
 	}
 }
