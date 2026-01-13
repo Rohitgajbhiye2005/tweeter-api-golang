@@ -1,0 +1,15 @@
+services:
+  db:
+    image: mysql:8.0
+    container_name: db-go-tweets
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: superSecret
+      MYSQL_DATABASE: go_tweets
+    ports:
+      - "3305:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:
