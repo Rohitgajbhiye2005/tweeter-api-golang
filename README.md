@@ -62,32 +62,6 @@ database/sql
 
 docker-compose
 
-📂 Project Structure
-go-tweets/
-├── cmd/
-│   └── main.go                 # Application entry point
-├── internal/
-│   ├── config/                 # App & DB configuration
-│   ├── dto/                    # Request / response DTOs
-│   ├── handlers/               # HTTP handlers
-│   │   ├── user/
-│   │   ├── post/
-│   │   └── comment/
-│   ├── middleware/             # Authentication middleware
-│   ├── models/                 # Database models
-│   ├── repository/             # DB access layer
-│   └── service/                # Business logic
-├── pkg/
-│   ├── internalsql/             # DB connection
-│   ├── jwt/                     # JWT utilities
-│   └── refreshtoken/            # Refresh token logic
-├── db/
-│   ├── migrations/              # SQL migrations
-│   └── schema.sql
-├── docker-compose.yml
-├── go.mod
-├── go.sum
-└── README.md
 
 🧠 Architecture Overview
 HTTP Request
