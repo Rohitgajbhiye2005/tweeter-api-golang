@@ -2,6 +2,8 @@
 
 A scalable backend REST API for a Twitter-like application built using Golang and Gin, following clean architecture principles (handler → service → repository).
 
+This project focuses on real-world backend design, secure authentication, and efficient SQL usage.
+
 🚀 Features
 🔐 Authentication
 
@@ -11,15 +13,11 @@ JWT-based authentication
 
 Refresh token mechanism
 
-Secure protected routes using middleware
+Protected routes using middleware
 
 📝 Posts
 
-Create a post
-
-Update a post
-
-Delete a post
+Create, update, and delete posts
 
 Get all posts (public)
 
@@ -29,7 +27,7 @@ Like / Unlike a post
 
 💬 Comments
 
-Create comment on a post
+Create comments on posts
 
 Get comments by post
 
@@ -41,7 +39,7 @@ Toggle like / unlike
 
 Prevent duplicate likes
 
-Count likes efficiently using SQL aggregation
+Efficient like counts using SQL aggregation
 
 🛠 Tech Stack
 Backend
@@ -54,13 +52,7 @@ MySQL
 
 JWT (JSON Web Tokens)
 
-Database
-
-MySQL
-
-SQL migrations
-
-Libraries / Tools
+Tools & Libraries
 
 github.com/gin-gonic/gin
 
@@ -70,52 +62,34 @@ database/sql
 
 docker-compose
 
-JWT middleware
-
 📂 Project Structure
 go-tweets/
-│
 ├── cmd/
 │   └── main.go                 # Application entry point
-│
 ├── internal/
 │   ├── config/                 # App & DB configuration
-│   ├── dto/                    # Request/response DTOs
-│   ├── handlers/               # HTTP handlers (Gin)
+│   ├── dto/                    # Request / response DTOs
+│   ├── handlers/               # HTTP handlers
 │   │   ├── user/
 │   │   ├── post/
 │   │   └── comment/
-│   │
-│   ├── middleware/             # Auth & request middleware
-│   ├── models/                 # DB models
+│   ├── middleware/             # Authentication middleware
+│   ├── models/                 # Database models
 │   ├── repository/             # DB access layer
-│   │   ├── user/
-│   │   ├── post/
-│   │   └── comment/
-│   │
-│   └── service/                # Business logic layer
-│       ├── user/
-│       ├── post/
-│       └── comment/
-│
+│   └── service/                # Business logic
 ├── pkg/
-│   ├── internalsql/             # DB connection setup
+│   ├── internalsql/             # DB connection
 │   ├── jwt/                     # JWT utilities
 │   └── refreshtoken/            # Refresh token logic
-│
 ├── db/
-│   ├── migrations/              # SQL migration files
+│   ├── migrations/              # SQL migrations
 │   └── schema.sql
-│
 ├── docker-compose.yml
 ├── go.mod
 ├── go.sum
 └── README.md
 
 🧠 Architecture Overview
-
-This project follows a clean layered architecture:
-
 HTTP Request
    ↓
 Handler (Gin)
@@ -128,54 +102,32 @@ MySQL
 
 Why this architecture?
 
-Easy to maintain
-
-Easy to test
-
 Clear separation of concerns
 
-Scales well for large applications
+Easy to maintain and test
+
+Scales well for larger applications
 
 🔑 Authentication Flow
 
 User logs in → receives Access Token + Refresh Token
 
-Access token used for protected routes
+Access token is used for protected routes
 
-Refresh token used to generate a new access token
+Refresh token generates a new access token
 
-JWT middleware validates user and injects userID into context
+Middleware validates JWT and injects userID into request context
 
-📌 API Endpoints (Overview)
-Auth
-POST   /auth/register
-POST   /auth/login
-POST   /auth/refresh
-
-Posts
-POST   /tweets/                  (auth)
-PUT    /tweets/:post_id/update   (auth)
-DELETE /tweets/:post_id/delete   (auth)
-POST   /tweets/action            (auth)   → like/unlike
-
-GET    /tweets/                  (public)
-GET    /tweets/:post_id/detail   (public)
-
-Comments
-POST   /comment/                 (auth)
-POST   /comment/action           (auth)   → like/unlike
 
 ⚙️ Environment Variables
-
-Create a .env file:
 
 APP_PORT=8080
 DB_HOST=localhost
 DB_PORT=3306
 DB_USER=root
-DB_PASSWORD=yourpassword
+DB_PASSWORD=CHANGE_ME
 DB_NAME=go_tweets
-JWT_SECRET=your_secret_key
+JWT_SECRET=CHANGE_ME
 
 🐳 Run with Docker
 docker-compose up --build
@@ -183,22 +135,6 @@ docker-compose up --build
 ▶️ Run Locally
 go mod tidy
 go run cmd/main.go
-
-📈 Future Improvements
-
-Pagination for posts & comments
-
-Cursor-based pagination
-
-Unit & integration tests
-
-Rate limiting
-
-Caching with Redis
-
-Follow / Unfollow users
-
-Notifications system
 
 👨‍💻 Author
 
